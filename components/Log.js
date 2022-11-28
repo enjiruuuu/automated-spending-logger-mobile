@@ -1,29 +1,41 @@
 import { Component } from "react";
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { logStyles } from "../styles/logs";
+import { CustomAppIcon } from '../assets/Custom.App.Icon'
 
 export default class Log extends Component {
     render() {
         return(
-            <View>
-                <View style={styles.container}>
-                    <View style={styles.row}>
-                        <Text style={styles.title}>Date</Text>
-                        <Text style={styles.title}>Category</Text>
-                        <Text style={styles.title}>Description</Text>
-                        <Text style={styles.title}>Amount Spent</Text>
-                        <Text style={styles.title}>Amount Converted</Text>
+            <View style={[logStyles.log, this.props.isFirst ? {marginTop: 0} : null, this.props.isLast ? {marginBottom: 30} : null]}>
+                <View>
+                    <View style={[logStyles.container, {marginTop: 0}]}>
+                        <Text style={logStyles.title}>Date</Text>
+                        <Text style={logStyles.data}>{this.props.date}</Text>
                     </View>
 
-                    <View style={styles.row}>
-                        <Text>{this.props.date}</Text>
-                        <Text>{this.props.category}</Text>
-                        <Text>{this.props.description}</Text>
-                        <Text>{this.props.amountSpent}</Text>
-                        <Text>{this.props.convertedAmount}</Text>
+                    <View style={logStyles.container}>
+                        <Text style={logStyles.title}>Category</Text>
+                        <Text style={logStyles.data}>{this.props.category}</Text>
+                    </View>
+
+                    <View style={logStyles.container}>
+                        <Text style={logStyles.title}>Description</Text>
+                        <Text style={logStyles.data}>{this.props.description}</Text>
+                    </View>
+
+                    <View style={logStyles.container}>
+                        <Text style={logStyles.title}>Baht to SGD</Text>
+                        <View style={[logStyles.data, {flexDirection: 'row', flexWrap: 'wrap'}]}>
+                            <Text style={logStyles.data}>{this.props.amountSpent}</Text>
+                            <CustomAppIcon name="connection" style={logStyles.icon}></CustomAppIcon>
+                            <Text style={[logStyles.data, {textAlign: 'center', color: '#3B82F6'}]}>{this.props.convertedAmount}</Text>
+                        </View>
                     </View>
                 </View>
 
-                <Button title="Delete" onPress={() => {this.props.parentCallbackToDelete(this.props.keyVal)}}></Button>
+                <TouchableHighlight underlayColor="#F9F9F9" style={logStyles.deleteButton} onPress={() => {this.props.parentCallbackToDelete(this.props.keyVal)}}>
+                    <Text style={logStyles.deleteButtonText}>Delete</Text>
+                </TouchableHighlight>
             </View>
         )
     }
@@ -36,7 +48,4 @@ const styles = StyleSheet.create({
     row: {
         flex: 0.5
     },
-    title: {
-        fontWeight: 'bold'
-    }
   })

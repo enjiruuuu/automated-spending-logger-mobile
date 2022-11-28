@@ -1,8 +1,13 @@
 import { Component } from "react";
-import { Text, View, StyleSheet, TextInput, ScrollView, Button, SafeAreaView, Modal, Alert } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, SafeAreaView, Modal, ScrollView, TouchableHighlight } from 'react-native';
 import AddLogModal from "../components/AddLogModal";
 import Log from "../components/Log";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { typographyStyles } from "../styles/typography";
+import { containerStyles } from "../styles/containers";
+import { marginStyles } from "../styles/margins";
+import { CustomAppIcon } from '../assets/Custom.App.Icon'
+import { buttonStyles } from "../styles/buttons";
 
 export default class Main extends Component {
     state = { 
@@ -107,33 +112,51 @@ export default class Main extends Component {
 
     render() {
         return (
-            <SafeAreaView>
-                <View>
-                    <Text>Rate: </Text>
-                    <TextInput defaultValue={this.state.rate} style={styles.input} onChangeText={(value) => this.updateRate(value)}></TextInput>
-                </View>
+            <View style={containerStyles.mainContainer}>
+                <ScrollView contentContainerStyle={containerStyles.scrollContainer}>
+                    <View>
+                            <View>
+                                <Text style={typographyStyles.heading1}>Rate</Text>
+                                <View style={[containerStyles.flex, marginStyles.top20]}>
+                                    <Text style={[typographyStyles.heading2]}>1 SGD</Text>
+                                    <Text style={[typographyStyles.heading2, marginStyles.left20]}>to</Text>
+                                    <TextInput defaultValue={this.state.rate} style={[styles.input, marginStyles.left20]} onChangeText={(value) => this.updateRate(value)}></TextInput>
+                                    <Text style={[typographyStyles.heading2, marginStyles.left20]}>Baht</Text>
+                                </View>
+                            </View>
 
-                <Text>The current rate is 1 SGD to {this.state.rate} Baht</Text>
+                            <View style={containerStyles.divider}></View>
 
-                <Button title="Update all logs"></Button>
+                            <View style={containerStyles.flex}>
+                                <Text style={[typographyStyles.heading3, {flex: 0.9}]}>Logs</Text>
+                                <TouchableHighlight underlayColor="transparent" style={{flex: 0.1}} onPress={() => {console.log('test')}}>
+                                    <CustomAppIcon name="upload" style={{fontSize: 20, color: '#22C55E', textAlign: 'right', marginTop: 8}}></CustomAppIcon>
+                                </TouchableHighlight>
+                            </View>
 
-                <View style={styles.logsContainer}>
-                    {this.state.allLogs.map((data) => {
-                        return (
-                            <Log key={data.key} keyVal={data.key} date={data.date} category={data.category} description={data.description} convertedAmount={data.convertedAmount} amountSpent={data.amountSpent} parentCallbackToDelete={this.deleteLog}></Log>
-                        );
-                    })}
-                </View>
+                            <View style={[styles.logsContainer, {marginTop: 30, marginBottom: 0}]}>
+                                {this.state.allLogs.map((data, index) => {
+                                    return (
+                                        <Log key={data.key} keyVal={data.key} isFirst={index === 0 ? true : false} isLast={index + 1 === this.state.allLogs.length ? true : false} date={data.date} category={data.category} description={data.description} convertedAmount={data.convertedAmount} amountSpent={data.amountSpent} parentCallbackToDelete={this.deleteLog}></Log>
+                                    );
+                                })}
+                            </View>
 
-                <Button title="Add new log" onPress={() => { this.toggleModal()}}></Button>
+                            {/* <Button title="Add new log" onPress={() => { this.toggleModal()}}></Button> */}
 
-                
-                <Modal visible={this.state.modalVisible}>
-                    <SafeAreaView>
-                        <AddLogModal date={this.state.date} rate={this.state.rate} parentCallbackForClose={this.toggleModal} parentCallbackForAdd={this.addLog}></AddLogModal>
-                    </SafeAreaView>
-                </Modal>
-            </SafeAreaView>
+                            <TouchableHighlight underlayColor="#22B658" style={buttonStyles.primary} onPress={() => { this.toggleModal()}}>
+                                <Text style={buttonStyles.primaryText}>Add new log</Text>
+                            </TouchableHighlight>
+
+                            
+                            <Modal visible={this.state.modalVisible}>
+                                <SafeAreaView>
+                                    <AddLogModal date={this.state.date} rate={this.state.rate} parentCallbackForClose={this.toggleModal} parentCallbackForAdd={this.addLog}></AddLogModal>
+                                </SafeAreaView>
+                            </Modal>    
+                    </View>
+                </ScrollView>
+            </View>
         )
     }
 }
@@ -147,12 +170,17 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
-        margin: 12,
+        width: 105,
         borderWidth: 1,
-        padding: 10,
+        borderColor: '#D5DAE1',
+        borderRadius: 8,
+        paddingLeft: 20,
+        paddingRight: 20,
+        textAlign: 'center',
+        backgroundColor: '#FFFFFF'
     },
     logsContainer: {
         marginTop: 50,
-        marginBottom: 50
+        marginBottom: 50,
     }
   })

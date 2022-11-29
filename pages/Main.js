@@ -8,6 +8,8 @@ import { containerStyles } from "../styles/containers";
 import { marginStyles } from "../styles/margins";
 import { CustomAppIcon } from '../assets/Custom.App.Icon'
 import { buttonStyles } from "../styles/buttons";
+import { formStyles } from "../styles/form";
+import { logStyles } from "../styles/logs";
 
 export default class Main extends Component {
     state = { 
@@ -120,7 +122,7 @@ export default class Main extends Component {
                                 <View style={[containerStyles.flex, {marginTop: 30}]}>
                                     <Text style={[typographyStyles.heading2]}>1 SGD</Text>
                                     <Text style={[typographyStyles.heading2, marginStyles.left20]}>to</Text>
-                                    <TextInput defaultValue={this.state.rate} style={[styles.input, marginStyles.left20]} onChangeText={(value) => this.updateRate(value)}></TextInput>
+                                    <TextInput defaultValue={this.state.rate} style={[formStyles.input, marginStyles.left20]} onChangeText={(value) => this.updateRate(value)} keyboardType='decimal-pad'></TextInput>
                                     <Text style={[typographyStyles.heading2, marginStyles.left20]}>Baht</Text>
                                 </View>
                             </View>
@@ -134,7 +136,7 @@ export default class Main extends Component {
                                 </TouchableHighlight>
                             </View>
 
-                            <View style={[styles.logsContainer, {marginTop: 30, marginBottom: 0}]}>
+                            <View style={[containerStyles.logsContainer, {marginTop: 30, marginBottom: 0}]}>
                                 {this.state.allLogs.map((data, index) => {
                                     return (
                                         <Log key={data.key} keyVal={data.key} isFirst={index === 0 ? true : false} isLast={index + 1 === this.state.allLogs.length ? true : false} date={data.date} category={data.category} description={data.description} convertedAmount={data.convertedAmount} amountSpent={data.amountSpent} parentCallbackToDelete={this.deleteLog}></Log>
@@ -156,27 +158,3 @@ export default class Main extends Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    button: {
-      alignItems: 'center',
-      backgroundColor: '#DDDDDD',
-      padding: 10,
-      marginBottom: 10
-    },
-    input: {
-        height: 40,
-        width: 105,
-        borderWidth: 1,
-        borderColor: '#D5DAE1',
-        borderRadius: 8,
-        paddingLeft: 20,
-        paddingRight: 20,
-        textAlign: 'center',
-        backgroundColor: '#FFFFFF'
-    },
-    logsContainer: {
-        marginTop: 50,
-        marginBottom: 50,
-    }
-  })

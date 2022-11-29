@@ -18,5 +18,12 @@ export const typographyStyles = StyleSheet.create({
         fontFamily: 'Poppins',
         fontWeight: '600',
         fontSize: 24
+    },
+    formLabel: {
+        color: '#333F51',
+        fontFamily: 'Poppins',
+        fontWeight: '500',
+        fontSize: 16,
+        marginTop: 30
     }
 })

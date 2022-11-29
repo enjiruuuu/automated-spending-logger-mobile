@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Text, View, StyleSheet, TextInput, Button, SafeAreaView, Modal, ScrollView, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, TextInput, SafeAreaView, Modal, ScrollView, TouchableHighlight } from 'react-native';
 import AddLogModal from "../components/AddLogModal";
 import Log from "../components/Log";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -117,7 +117,7 @@ export default class Main extends Component {
                     <View>
                             <View>
                                 <Text style={typographyStyles.heading1}>Rate</Text>
-                                <View style={[containerStyles.flex, marginStyles.top20]}>
+                                <View style={[containerStyles.flex, {marginTop: 30}]}>
                                     <Text style={[typographyStyles.heading2]}>1 SGD</Text>
                                     <Text style={[typographyStyles.heading2, marginStyles.left20]}>to</Text>
                                     <TextInput defaultValue={this.state.rate} style={[styles.input, marginStyles.left20]} onChangeText={(value) => this.updateRate(value)}></TextInput>
@@ -142,17 +142,13 @@ export default class Main extends Component {
                                 })}
                             </View>
 
-                            {/* <Button title="Add new log" onPress={() => { this.toggleModal()}}></Button> */}
-
                             <TouchableHighlight underlayColor="#22B658" style={buttonStyles.primary} onPress={() => { this.toggleModal()}}>
                                 <Text style={buttonStyles.primaryText}>Add new log</Text>
                             </TouchableHighlight>
 
                             
-                            <Modal visible={this.state.modalVisible}>
-                                <SafeAreaView>
-                                    <AddLogModal date={this.state.date} rate={this.state.rate} parentCallbackForClose={this.toggleModal} parentCallbackForAdd={this.addLog}></AddLogModal>
-                                </SafeAreaView>
+                            <Modal visible={this.state.modalVisible} animationType='slide'>
+                                <AddLogModal date={this.state.date} rate={this.state.rate} parentCallbackForClose={this.toggleModal} parentCallbackForAdd={this.addLog}></AddLogModal>
                             </Modal>    
                     </View>
                 </ScrollView>

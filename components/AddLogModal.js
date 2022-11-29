@@ -1,6 +1,11 @@
-import { Picker } from "@react-native-picker/picker";
 import { Component } from "react";
-import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Button, TextInput, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { containerStyles } from "../styles/containers";
+import { formStyles } from "../styles/form";
+import { logStyles } from "../styles/logs";
+import { typographyStyles } from "../styles/typography";
+import { CustomAppIcon } from '../assets/Custom.App.Icon'
+import { buttonStyles } from "../styles/buttons";
 
 export default class AddLogModal extends Component {
     state = {
@@ -9,6 +14,7 @@ export default class AddLogModal extends Component {
         conversionTo1SGD: '',
         amountSpent: '',
         convertedAmount: '0.00',
+        pickerVisible: true
     }
 
     componentDidMount() {
@@ -31,6 +37,10 @@ export default class AddLogModal extends Component {
     }
 
     updateAmountSpent(value) {
+        if (value === '') {
+            value = '0'
+        }
+
         const calc = value * this.state.conversionTo1SGD
         const to2DP = parseFloat(calc).toFixed(2)
         this.setState({amountSpent: value})
@@ -57,39 +67,52 @@ export default class AddLogModal extends Component {
 
     render() {
         return(
-            <View>
-                <View style={styles.container}>
-                    <View style={styles.row}>
-                        <Text style={styles.title}>Date</Text>
-                        <Text>{this.props.date}</Text>
+            <View style={{height: '100%'}}>
+                <View style={[containerStyles.scrollContainer, {paddingBottom: 0}]}>
+                    <View>
+
+                        <Text style={typographyStyles.heading3}>Add new log</Text>
+
+                        <Text style={[typographyStyles.formLabel, {marginTop: 30}]}>Date</Text>
+                        <TextInput style={[formStyles.input, formStyles.inputWithLabel]} defaultValue={this.props.date}></TextInput>
+
+                        <Text style={typographyStyles.formLabel}>Category</Text>
+                        <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+                            <TouchableOpacity style={[formStyles.input, formStyles.togglerButtonWithLabel, {borderColor: '#F4CCCC'}, this.state.category === 'Shopping' ? {backgroundColor: '#F4CCCC'} : null]} onPress={() => {this.updateCategory('Shopping')}}>
+                                <Text style={{color: '#E06666', paddingTop: 10, textAlign: 'center'}}>Shopping</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={[formStyles.input, formStyles.togglerButtonWithLabel, {borderColor: '#D9EAD3'}, this.state.category === 'Food' ? {backgroundColor: '#D9EAD3'} : null]} onPress={() => {this.updateCategory('Food')}}>
+                                <Text style={{color: '#93C47D', paddingTop: 10, textAlign: 'center'}}>Food</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity value='Travel' style={[formStyles.input, formStyles.togglerButtonWithLabel, {borderColor: '#D9D2E9'}, this.state.category === 'Travel' ? {backgroundColor: '#D9D2E9'} : null]} onPress={() => {this.updateCategory('Travel')}}>
+                                <Text style={{color: '#8E7CC3', paddingTop: 10, textAlign: 'center'}}>Travel</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <Text style={typographyStyles.formLabel}>Description</Text>
+                        <TextInput style={[formStyles.input, formStyles.inputWithLabel]} onChangeText={(value) => this.updateDescription(value)}></TextInput>
 
 
-                        <Text style={styles.title}>Category</Text>
-                        <Picker 
-                            selectedValue={this.state.category}
-                            onValueChange={(itemValue) =>
-                                this.updateCategory(itemValue)
-                            }>
-                            <Picker.Item label="Shopping" value="Shopping" />
-                            <Picker.Item label="Food" value="Food" />
-                            <Picker.Item label="Travel" value="Travel" />
-                        </Picker>
-
-                        <Text style={styles.title}>Description</Text>
-                        <TextInput style={styles.input} onChangeText={(value) => this.updateDescription(value)}></TextInput>
-
-
-                        <Text style={styles.title}>Amount Spent</Text>
-                        <TextInput style={styles.input} onChangeText={(value) => this.updateAmountSpent(value)}></TextInput>
-
-
-                        <Text style={styles.title}>Amount Converted</Text>
-                        <Text>{this.state.convertedAmount}</Text>
+                        <Text style={typographyStyles.formLabel}>Baht to SGD</Text>
+                        <View style={{flexDirection: 'row', flexWrap: 'wrap', alignItems:'center'}}>
+                            <TextInput defaultValue="0" style={[formStyles.input, formStyles.inputWithLabel, {width: 105}]} onChangeText={(value) => this.updateAmountSpent(value)} keyboardType='decimal-pad'></TextInput>
+                            <CustomAppIcon name="connection" style={[logStyles.icon, {marginLeft: 13, marginRight: 13}]}></CustomAppIcon>
+                            <Text style={{textAlign: 'center', color: '#3B82F6'}}>{this.state.convertedAmount}</Text>
+                        </View>
                     </View>
                 </View>
 
-                <Button title="Add" onPress={() => {this.submitLogToParent()}}></Button>
-                <Button title="Close" onPress={() => {this.closeModal()}}></Button>
+                <View style={[containerStyles.scrollContainer, {paddingTop: 30}]}>
+                    <TouchableHighlight underlayColor="#22B658" style={[buttonStyles.primary]} onPress={() => { this.submitLogToParent()}}>
+                        <Text style={buttonStyles.primaryText}>Add</Text>
+                    </TouchableHighlight>
+
+                    <TouchableHighlight underlayColor="#EFFFF5" style={buttonStyles.secondary} onPress={() => { this.closeModal()}}>
+                        <Text style={buttonStyles.secondaryText}>Close</Text>
+                    </TouchableHighlight>
+                </View>
             </View>
         )
     }

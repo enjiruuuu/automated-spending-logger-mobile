@@ -10,6 +10,7 @@ import { CustomAppIcon } from '../assets/Custom.App.Icon'
 import { buttonStyles } from "../styles/buttons";
 import { formStyles } from "../styles/form";
 import { logStyles } from "../styles/logs";
+import { Api } from "../helpers/api";
 
 export default class Main extends Component {
     state = { 
@@ -25,6 +26,8 @@ export default class Main extends Component {
         this.toggleModal = this.toggleModal.bind(this);
         this.addLog = this.addLog.bind(this);
         this.deleteLog = this.deleteLog.bind(this);
+
+        this.api = new Api();
     }
 
     setDate() {
@@ -106,6 +109,10 @@ export default class Main extends Component {
             return null
         }
     }
+
+    sendDataToUpdateSheet() {
+        this.api.updateSheet(this.state.allLogs);
+    }
     
     componentDidMount() {
         this.setDate()
@@ -131,7 +138,7 @@ export default class Main extends Component {
 
                             <View style={containerStyles.flex}>
                                 <Text style={[typographyStyles.heading3, {flex: 0.9}]}>Logs</Text>
-                                <TouchableHighlight underlayColor="transparent" style={{flex: 0.1}} onPress={() => {console.log('test')}}>
+                                <TouchableHighlight underlayColor="transparent" style={{flex: 0.1}} onPress={() => {this.sendDataToUpdateSheet()}}>
                                     <CustomAppIcon name="upload" style={{fontSize: 20, color: '#22C55E', textAlign: 'right', marginTop: 8}}></CustomAppIcon>
                                 </TouchableHighlight>
                             </View>

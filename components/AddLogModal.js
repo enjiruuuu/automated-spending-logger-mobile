@@ -86,8 +86,8 @@ export default class AddLogModal extends Component {
                                 <Text style={{color: '#93C47D', paddingTop: 10, textAlign: 'center'}}>Food</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity value='Travel' style={[formStyles.input, formStyles.togglerButtonWithLabel, {borderColor: '#D9D2E9'}, this.state.category === 'Travel' ? {backgroundColor: '#D9D2E9'} : null]} onPress={() => {this.updateCategory('Travel')}}>
-                                <Text style={{color: '#8E7CC3', paddingTop: 10, textAlign: 'center'}}>Travel</Text>
+                            <TouchableOpacity value='Transport' style={[formStyles.input, formStyles.togglerButtonWithLabel, {borderColor: '#D9D2E9'}, this.state.category === 'Transport' ? {backgroundColor: '#D9D2E9'} : null]} onPress={() => {this.updateCategory('Transport')}}>
+                                <Text style={{color: '#8E7CC3', paddingTop: 10, textAlign: 'center'}}>Transport</Text>
                             </TouchableOpacity>
                         </View>
 

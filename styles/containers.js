@@ -20,5 +20,9 @@ export const containerStyles = StyleSheet.create({
     mainContainer: {
         height: '100%',
         backgroundColor: '#F7F8F9'
+    },
+    logsContainer: {
+        marginTop: 50,
+        marginBottom: 50,
     }
 })

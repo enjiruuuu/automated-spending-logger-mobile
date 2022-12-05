@@ -2,12 +2,17 @@ import axios from "axios"
 
 export class Api {
 
+    baseUrl = 'https://automated-spending-logger-api.glitch.me';
+
     async updateSheet(logs) {
-        const request = this.formatRequest(logs)
-        return await axios.post('http://192.168.1.102:8080/update', request).then(res => {
-            console.log(res.data)
+        const request = {
+            logs: this.formatRequest(logs),
+            sheetId: '14cXyuhFZoUnIRBczdtYJQ49IDS0I4sFDiWzsiApoWU4',
+        }
+
+        return await axios.post(this.baseUrl + '/update', request).then(res => {
             return Promise.resolve(res.data)
-        });
+        })
     }
 
     formatRequest(logs) {

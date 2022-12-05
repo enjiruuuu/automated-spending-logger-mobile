@@ -110,8 +110,22 @@ export default class Main extends Component {
         }
     }
 
+    async deleteAllLogs() {
+        this.setState({allLogs: []})
+
+        try {
+            await AsyncStorage.setItem('allLogs', JSON.stringify([]))
+        } catch (e) {
+            return null
+        }
+    }
+
     sendDataToUpdateSheet() {
-        this.api.updateSheet(this.state.allLogs);
+        this.api.updateSheet(this.state.allLogs).then(data => {
+            if (data.code === 200) {
+                this.deleteAllLogs()
+            }
+        });
     }
     
     componentDidMount() {
